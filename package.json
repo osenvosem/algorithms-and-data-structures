@@ -1,0 +1,21 @@
+{
+  "name": "algorithms-and-data-structures",
+  "version": "1.0.0",
+  "description": "Learning algorithms and data structures",
+  "main": "dist/index.js",
+  "repository": "https://github.com/osenvosem/algorithms-and-data-structures",
+  "author": "Sergey Samsonov <osenvosem@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon -q --exec babel-node src/index.ts --extensions '.ts'"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-typescript": "^7.1.0",
+    "@types/node": "^10.12.18",
+    "nodemon": "^1.18.9"
+  }
+}
