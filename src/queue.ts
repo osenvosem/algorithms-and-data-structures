@@ -30,5 +30,5 @@ q.dequeue(); // "Buy apples."
 q.dequeue(); // "Get a haircut."
 q.dequeue(); // "Go out for a run"
 
-// console.log(q.isEmpty()); // true
-// console.log(q.length); // 0
+console.log(q.isEmpty()); // true
+console.log(q.length); // 0
