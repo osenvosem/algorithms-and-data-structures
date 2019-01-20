@@ -1,4 +1,4 @@
-interface TNode {
+export interface TNode {
   value: any;
   next: TNode | null;
 }

@@ -4,12 +4,12 @@ export interface TNode {
   addNeighbor(node: TNode): void;
 }
 
-export interface TGraph {
+interface TGraph {
   directed: boolean;
   nodes: TNode[];
   edges: string[];
   addNode(key: string): number;
-  getNode(key: string): TNode;
+  getNode(key: string): TNode | void;
   addEdge(this: TGraph, node1key: string, node2key: string): void;
   print(): string;
 }
@@ -38,17 +38,19 @@ function createGraph(directed = false): TGraph {
       return nodes.push(createNode(key));
     },
     getNode(key) {
-      return nodes.find(node => node.key === key)!;
+      return nodes.find(node => node.key === key);
     },
     addEdge(node1key, node2key) {
       const node1 = this.getNode(node1key);
       const node2 = this.getNode(node2key);
 
-      node1.addNeighbor(node2);
-      edges.push(`${node1key}-${node2key}`);
+      if (node1 && node2) {
+        node1.addNeighbor(node2);
+        edges.push(`${node1key}-${node2key}`);
 
-      if (!directed) {
-        node2.addNeighbor(node1);
+        if (!directed) {
+          node2.addNeighbor(node1);
+        }
       }
     },
     print() {

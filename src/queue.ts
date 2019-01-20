@@ -1,5 +1,13 @@
-export const createQueue = () => {
-  const queue = [];
+export interface TQueue {
+  enqueue(item: string): void;
+  dequeue(): string | undefined;
+  peek(): string | undefined;
+  readonly length: number;
+  isEmpty(): boolean;
+}
+
+export const createQueue = (): TQueue => {
+  const queue: string[] = [];
 
   return {
     enqueue(item) {

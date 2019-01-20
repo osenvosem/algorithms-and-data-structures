@@ -1,5 +1,13 @@
-const createStack = () => {
-  let array = [];
+interface TStack {
+  push(item: string): void;
+  pop(): string | undefined;
+  peek(): string | undefined;
+  readonly length: number;
+  isEmpty(): boolean;
+}
+
+const createStack = (): TStack => {
+  let array: string[] = [];
 
   return {
     push(item) {

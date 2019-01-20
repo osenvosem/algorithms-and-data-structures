@@ -1,6 +1,10 @@
-import { createQueue } from "./queue";
+import { createQueue, TQueue } from "./queue";
 
-const createPriorityQueue = () => {
+interface TPriorityQueue extends TQueue {
+  enqueue(item: string, isHighPriority?: boolean): void;
+}
+
+const createPriorityQueue = (): TPriorityQueue => {
   const lowPriorityQueue = createQueue();
   const highPriorityQueue = createQueue();
 
