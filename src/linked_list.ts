@@ -1,8 +1,25 @@
-const createNode = value => {
+interface TNode {
+  value: any;
+  next: TNode | null;
+}
+
+interface TLinkedList {
+  head: TNode | null;
+  tail: TNode | null;
+  length: number;
+  push(value: any): TNode;
+  pop(): TNode;
+  get(index: number): TNode;
+  delete(index: number): TNode;
+  isEmpty(): boolean;
+  print(): string;
+}
+
+const createNode = (value: any) => {
   return {
     value,
     next: null
-  };
+  } as TNode;
 };
 
 const createLinkedList = () => {
@@ -20,7 +37,7 @@ const createLinkedList = () => {
         return node;
       }
 
-      this.tail.next = node;
+      this.tail!.next = node;
       this.tail = node;
       this.length++;
 
@@ -41,7 +58,7 @@ const createLinkedList = () => {
       }
 
       let current = this.head;
-      let penultimate;
+      let penultimate: TNode;
       while (current) {
         if (current.next === this.tail) {
           penultimate = current;
@@ -50,7 +67,7 @@ const createLinkedList = () => {
         current = current.next;
       }
 
-      penultimate.next = null;
+      penultimate!.next = null;
       this.tail = penultimate;
       this.length--;
 
@@ -69,7 +86,7 @@ const createLinkedList = () => {
       let i = 0;
       while (i < index) {
         i++;
-        current = current.next;
+        current = current!.next;
       }
 
       return current;
@@ -81,25 +98,25 @@ const createLinkedList = () => {
 
       if (index === 0) {
         const deleted = this.head;
-        this.head = this.head.next;
+        this.head = this.head!.next;
         this.length--;
 
         return deleted;
       }
 
       let current = this.head;
-      let previous;
+      let previous: TNode;
       let i = 0;
       while (i < index) {
         i++;
-        previous = current;
-        current = current.next;
+        previous = current!;
+        current = current!.next;
       }
 
       const deleted = current;
-      previous.next = current.next;
+      previous!.next = current!.next;
 
-      if (previous.next === null) {
+      if (previous!.next === null) {
         this.tail = previous;
       }
 
@@ -121,7 +138,7 @@ const createLinkedList = () => {
 
       return values.join(" => ");
     }
-  };
+  } as TLinkedList;
 };
 
 const list = createLinkedList();
@@ -133,7 +150,7 @@ console.log(list.isEmpty()); // false
 
 list.pop();
 
-console.log(list.tail.value); // d
+console.log(list.tail!.value); // d
 
 console.log(list.get(1).value); // b
 
