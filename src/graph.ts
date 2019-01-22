@@ -1,3 +1,5 @@
+import { createQueue, TQueue } from "./queue";
+
 export interface TNode {
   key: string;
   neighbors: TNode[];
@@ -12,6 +14,18 @@ interface TGraph {
   getNode(key: string): TNode | void;
   addEdge(this: TGraph, node1key: string, node2key: string): void;
   print(): string;
+  breadthFirstSearch(
+    startingNodeKey: string,
+    visitFn: (node: TNode) => void
+  ): void;
+  depthFirstSearch(
+    startingNodeKey: string,
+    visitFn: (node: TNode) => void
+  ): void;
+}
+
+interface TVisitedNodes {
+  [key: string]: boolean;
 }
 
 function createNode(key: string): TNode {
@@ -65,24 +79,86 @@ function createGraph(directed = false): TGraph {
           return result;
         })
         .join("\n");
+    },
+    breadthFirstSearch(startingNodeKey, visitFn) {
+      const startingNode = this.getNode(startingNodeKey);
+
+      const visited = nodes.reduce<TVisitedNodes>((acc, node) => {
+        acc[node.key] = false;
+        return acc;
+      }, {});
+
+      const queue = createQueue();
+
+      if (startingNode) {
+        queue.enqueue(startingNode);
+
+        while (!queue.isEmpty()) {
+          const currentNode = queue.dequeue<TNode>();
+
+          if (!visited[currentNode.key]) {
+            visitFn(currentNode);
+            visited[currentNode.key] = true;
+          }
+
+          currentNode.neighbors.forEach(node => {
+            if (!visited[node.key]) {
+              queue.enqueue(node);
+            }
+          });
+        }
+      }
+    },
+    depthFirstSearch(startingNodeKey, visitFn) {
+      const startingNode = this.getNode(startingNodeKey);
+      const visited = nodes.reduce<TVisitedNodes>((acc, node) => {
+        acc[node.key] = false;
+        return acc;
+      }, {});
+
+      function explore(node: TNode) {
+        if (visited[node.key]) {
+          return;
+        }
+
+        visitFn(node);
+        visited[node.key] = true;
+
+        node.neighbors.forEach(node => {
+          explore(node);
+        });
+      }
+
+      if (startingNode) {
+        explore(startingNode);
+      }
     }
   };
 }
 
 const graph = createGraph(true);
 
-graph.addNode("Kyle");
-graph.addNode("Anna");
-graph.addNode("Krios");
-graph.addNode("Tali");
+const nodes = ["a", "b", "c", "d", "f"];
+const edges = [
+  ["a", "b"],
+  ["a", "e"],
+  ["a", "f"],
+  ["b", "d"],
+  ["b", "e"],
+  ["c", "b"],
+  ["d", "c"],
+  ["d", "e"]
+];
 
-graph.addEdge("Kyle", "Anna");
-graph.addEdge("Anna", "Kyle");
-graph.addEdge("Kyle", "Krios");
-graph.addEdge("Kyle", "Tali");
-graph.addEdge("Anna", "Krios");
-graph.addEdge("Anna", "Tali");
-graph.addEdge("Krios", "Anna");
-graph.addEdge("Tali", "Kyle");
+nodes.forEach(node => graph.addNode(node));
+edges.forEach(nodes => graph.addEdge(nodes[0], nodes[1]));
 
-console.log(graph.print());
+// test Breadth First Search
+graph.breadthFirstSearch("a", node => {
+  console.log(node.key);
+});
+
+// test Depth First Search
+graph.depthFirstSearch("a", node => {
+  console.log(node.key);
+});

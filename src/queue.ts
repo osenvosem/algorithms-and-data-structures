@@ -1,13 +1,13 @@
 export interface TQueue {
-  enqueue(item: string): void;
-  dequeue(): string | undefined;
-  peek(): string | undefined;
+  enqueue<T>(item: T): void;
+  dequeue<T>(): T;
+  peek<T>(): T;
   readonly length: number;
   isEmpty(): boolean;
 }
 
 export const createQueue = (): TQueue => {
-  const queue: string[] = [];
+  const queue: any[] = [];
 
   return {
     enqueue(item) {
@@ -38,5 +38,5 @@ q.dequeue(); // "Buy apples."
 q.dequeue(); // "Get a haircut."
 q.dequeue(); // "Go out for a run"
 
-console.log(q.isEmpty()); // true
-console.log(q.length); // 0
+q.isEmpty(); // true
+q.length; // 0

@@ -1,7 +1,7 @@
 import { createQueue, TQueue } from "./queue";
 
 interface TPriorityQueue extends TQueue {
-  enqueue(item: string, isHighPriority?: boolean): void;
+  enqueue<T>(item: T, isHighPriority?: boolean): void;
 }
 
 const createPriorityQueue = (): TPriorityQueue => {
