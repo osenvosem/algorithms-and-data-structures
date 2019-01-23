@@ -2,4 +2,8 @@
 // import "./priority_queue";
 // import "./stack";
 // import "./linked_list";
-import "./graph";
+// import "./graph";
+// import "./tree";
+// import "./binary-tree";
+// import "./bubble-sort";
+// import "./insertion-sort";
