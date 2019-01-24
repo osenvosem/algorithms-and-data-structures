@@ -7,3 +7,5 @@
 // import "./binary-tree";
 // import "./bubble-sort";
 // import "./insertion-sort";
+// import "./merge-sort";
+import "./quick-sort";
