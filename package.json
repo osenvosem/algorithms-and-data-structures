@@ -7,7 +7,9 @@
   "author": "Sergey Samsonov <osenvosem@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon -q --exec babel-node src/index.ts --extensions '.ts'"
+    "start": "nodemon -q --exec babel-node src/index.ts --extensions '.ts'",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -16,7 +18,9 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-typescript": "^7.1.0",
+    "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
+    "jest": "^24.0.0",
     "nodemon": "^1.18.9"
   }
 }
