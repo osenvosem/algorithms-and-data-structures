@@ -1,19 +1,18 @@
-import { StackString, StackArray } from "../stack";
+import { StackString, StackArray, stackObject, Stack } from "../stack";
 
-interface TStack {
-  new (): StackString | StackArray;
-}
+const createStack = (classOrFunc: any, isFunc: boolean) => {
+  return isFunc ? classOrFunc() : new classOrFunc();
+};
 
-const describeFn = (Stack: TStack) => () => {
+const describeFn = (classOrFunc: any, isFunc = false) => () => {
   it("0 items", () => {
-    const stack = new Stack();
-
+    const stack = createStack(classOrFunc, isFunc);
     expect(stack.size()).toBe(0);
     expect(stack.pop()).toBeUndefined();
   });
 
   it("1 item", () => {
-    const stack = new Stack();
+    const stack = createStack(classOrFunc, isFunc);
     const item = "test item";
     stack.push(item);
 
@@ -22,7 +21,7 @@ const describeFn = (Stack: TStack) => () => {
   });
 
   it("many items", () => {
-    const stack = new Stack();
+    const stack = createStack(classOrFunc, isFunc);
     const items = ["one", "two", "three"];
     items.forEach(item => stack.push(item));
 
@@ -34,3 +33,5 @@ const describeFn = (Stack: TStack) => () => {
 describe("StackString", describeFn(StackString));
 
 describe("StackArray", describeFn(StackArray));
+
+describe("stack object functional", describeFn(stackObject, true));

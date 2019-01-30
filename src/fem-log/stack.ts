@@ -1,7 +1,13 @@
-// Last In First Out
+// LIFO - Last in, first out
+
+export interface Stack {
+  push(item: any): number;
+  pop(): any;
+  size(): number;
+}
 
 // Implemented using a string
-export class StackString {
+export class StackString implements Stack {
   private storage = "";
 
   push(item: string) {
@@ -37,7 +43,7 @@ export class StackString {
 }
 
 // Implemented using an array
-export class StackArray {
+export class StackArray implements Stack {
   private storage: any[] = [];
 
   push(item: any) {
@@ -49,4 +55,23 @@ export class StackArray {
   size() {
     return this.storage.length;
   }
+}
+
+// Implemented using an object and more functional way
+export function stackObject(): Stack {
+  let storage: { [key: number]: any } = {};
+
+  return {
+    push(item: any) {
+      const idx = this.size();
+      storage[idx] = item;
+      return idx;
+    },
+    pop() {
+      return storage[this.size() - 1];
+    },
+    size() {
+      return Object.keys(storage).length;
+    }
+  };
 }
