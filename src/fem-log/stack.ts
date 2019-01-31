@@ -4,7 +4,7 @@ export interface Stack {
   push(item: any): number;
   pop(): any;
   peek(): any;
-  size(): number;
+  count(): number;
 }
 
 // Implemented using a string
@@ -13,10 +13,10 @@ export class StackString implements Stack {
 
   push(item: string) {
     this.storage += !this.storage.length ? item : `,${item}`;
-    return this.size();
+    return this.count();
   }
   pop() {
-    switch (this.size()) {
+    switch (this.count()) {
       case 0:
         return undefined;
       case 1: {
@@ -33,7 +33,7 @@ export class StackString implements Stack {
     }
   }
   peek() {
-    switch (this.size()) {
+    switch (this.count()) {
       case 0:
         return undefined;
       case 1:
@@ -45,7 +45,7 @@ export class StackString implements Stack {
       }
     }
   }
-  size() {
+  count() {
     if (!this.storage.length) {
       return 0;
     } else if (this.storage.length && !this.storage.includes(",")) {
@@ -69,7 +69,7 @@ export class StackArray implements Stack {
   peek() {
     return this.storage.slice(-1)[0];
   }
-  size() {
+  count() {
     return this.storage.length;
   }
 }
@@ -80,17 +80,17 @@ export function stackObject(): Stack {
 
   return {
     push(item: any) {
-      const idx = this.size();
+      const idx = this.count();
       storage[idx] = item;
       return idx;
     },
     pop() {
-      return storage[this.size() - 1];
+      return storage[this.count() - 1];
     },
     peek() {
-      return storage[this.size() - 1];
+      return storage[this.count() - 1];
     },
-    size() {
+    count() {
       return Object.keys(storage).length;
     }
   };

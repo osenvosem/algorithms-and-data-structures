@@ -7,7 +7,7 @@ const createStack = (classOrFunc: any, isFunc: boolean) => {
 const describeFn = (classOrFunc: any, isFunc = false) => () => {
   it("0 items", () => {
     const stack = createStack(classOrFunc, isFunc);
-    expect(stack.size()).toBe(0);
+    expect(stack.count()).toBe(0);
     expect(stack.peek()).toBeUndefined();
     expect(stack.pop()).toBeUndefined();
   });
@@ -17,7 +17,7 @@ const describeFn = (classOrFunc: any, isFunc = false) => () => {
     const item = "test item";
     stack.push(item);
 
-    expect(stack.size()).toBe(1);
+    expect(stack.count()).toBe(1);
     expect(stack.peek()).toBe(item);
     expect(stack.pop()).toBe(item);
   });
@@ -27,7 +27,7 @@ const describeFn = (classOrFunc: any, isFunc = false) => () => {
     const items = ["one", "two", "three"];
     items.forEach(item => stack.push(item));
 
-    expect(stack.size()).toBe(items.length);
+    expect(stack.count()).toBe(items.length);
     expect(stack.peek()).toBe(items.slice(-1)[0]);
     expect(stack.pop()).toBe(items.pop());
   });
