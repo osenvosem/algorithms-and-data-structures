@@ -1,17 +1,23 @@
 // LIFO - Last in, first out
 
 export interface Stack {
-  push(item: any): number;
+  push(item: any): string | number;
   pop(): any;
   peek(): any;
   count(): number;
+  setMaxCapacity(arg: number): void;
+  contains(arg: any): any;
 }
 
 // Implemented using a string
 export class StackString implements Stack {
   private storage = "";
+  private maxCapacity = 100;
 
   push(item: string) {
+    if (this.count() >= this.maxCapacity) {
+      return "Max capacity already reached. Remove element before adding a new one.";
+    }
     this.storage += !this.storage.length ? item : `,${item}`;
     return this.count();
   }
@@ -54,13 +60,24 @@ export class StackString implements Stack {
       return this.storage.split(",").length;
     }
   }
+  setMaxCapacity(num: number) {
+    this.maxCapacity = num;
+  }
+  contains(item: string) {
+    const regex = new RegExp(`\\b${item}\\b`);
+    return regex.test(this.storage);
+  }
 }
 
 // Implemented using an array
 export class StackArray implements Stack {
   private storage: any[] = [];
+  private maxCapacity = 100;
 
   push(item: any) {
+    if (this.count() >= this.maxCapacity) {
+      return "Max capacity already reached. Remove element before adding a new one.";
+    }
     return this.storage.push(item);
   }
   pop() {
@@ -72,14 +89,23 @@ export class StackArray implements Stack {
   count() {
     return this.storage.length;
   }
+  setMaxCapacity(num: number) {
+    this.maxCapacity = num;
+  }
+  contains(item: any) {
+    return this.storage.includes(item);
+  }
 }
 
 // Implemented using an object and more functional way
-export function stackObject(): Stack {
+export function stackObject(maxCapacity = 100): Stack {
   let storage: { [key: number]: any } = {};
 
   return {
     push(item: any) {
+      if (this.count() >= maxCapacity) {
+        return "Max capacity already reached. Remove element before adding a new one.";
+      }
       const idx = this.count();
       storage[idx] = item;
       return idx;
@@ -92,6 +118,12 @@ export function stackObject(): Stack {
     },
     count() {
       return Object.keys(storage).length;
+    },
+    setMaxCapacity(num: number) {
+      maxCapacity = num;
+    },
+    contains(item: any) {
+      return Object.keys(storage).some((key: string) => storage[+key] === item);
     }
   };
 }
