@@ -60,6 +60,20 @@ const describeFn = (classOrFunc: any, isFunc = false) => () => {
     expect(stack.contains("three")).toBe(true);
     expect(stack.contains("non-existent")).toBe(false);
   });
+
+  it(".until()", () => {
+    const stack = createStack(classOrFunc, isFunc);
+
+    expect(stack.until("one")).toBeNull();
+
+    stack.push("one");
+
+    expect(stack.until("one")).toBe(1);
+
+    ["two", "three", "four", "five"].forEach(item => stack.push(item));
+
+    expect(stack.until("four")).toBe(4);
+  });
 };
 
 describe("StackString", describeFn(StackString));

@@ -7,6 +7,7 @@ export interface Stack {
   count(): number;
   setMaxCapacity(arg: number): void;
   contains(arg: any): any;
+  until(item: any): number | null;
 }
 
 // Implemented using a string
@@ -67,6 +68,16 @@ export class StackString implements Stack {
     const regex = new RegExp(`\\b${item}\\b`);
     return regex.test(this.storage);
   }
+  until(item: string) {
+    if (this.storage.includes(item)) {
+      if (this.count() === 1) return 1;
+      const itemIdx = this.storage.indexOf(item);
+      const strBeforeItem = this.storage.slice(0, itemIdx);
+      return (strBeforeItem.match(/,/g) || []).length + 1;
+    } else {
+      return null;
+    }
+  }
 }
 
 // Implemented using an array
@@ -94,6 +105,10 @@ export class StackArray implements Stack {
   }
   contains(item: any) {
     return this.storage.includes(item);
+  }
+  until(item: any) {
+    let idx = this.storage.indexOf(item);
+    return idx === -1 ? null : ++idx;
   }
 }
 
@@ -124,6 +139,11 @@ export function stackObject(maxCapacity = 100): Stack {
     },
     contains(item: any) {
       return Object.keys(storage).some((key: string) => storage[+key] === item);
+    },
+    until(item: any) {
+      let idx = Object.keys(storage).find(idx => storage[+idx] === item);
+
+      return idx !== undefined ? +idx + 1 : null;
     }
   };
 }
