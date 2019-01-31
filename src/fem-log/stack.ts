@@ -3,6 +3,7 @@
 export interface Stack {
   push(item: any): number;
   pop(): any;
+  peek(): any;
   size(): number;
 }
 
@@ -31,6 +32,19 @@ export class StackString implements Stack {
       }
     }
   }
+  peek() {
+    switch (this.size()) {
+      case 0:
+        return undefined;
+      case 1:
+        return this.storage;
+      default: {
+        const lastCommaIdx = this.storage.lastIndexOf(",");
+        const item = this.storage.slice(lastCommaIdx + 1);
+        return item;
+      }
+    }
+  }
   size() {
     if (!this.storage.length) {
       return 0;
@@ -52,6 +66,9 @@ export class StackArray implements Stack {
   pop() {
     return this.storage.pop();
   }
+  peek() {
+    return this.storage.slice(-1)[0];
+  }
   size() {
     return this.storage.length;
   }
@@ -68,6 +85,9 @@ export function stackObject(): Stack {
       return idx;
     },
     pop() {
+      return storage[this.size() - 1];
+    },
+    peek() {
       return storage[this.size() - 1];
     },
     size() {

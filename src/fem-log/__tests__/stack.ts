@@ -8,6 +8,7 @@ const describeFn = (classOrFunc: any, isFunc = false) => () => {
   it("0 items", () => {
     const stack = createStack(classOrFunc, isFunc);
     expect(stack.size()).toBe(0);
+    expect(stack.peek()).toBeUndefined();
     expect(stack.pop()).toBeUndefined();
   });
 
@@ -17,6 +18,7 @@ const describeFn = (classOrFunc: any, isFunc = false) => () => {
     stack.push(item);
 
     expect(stack.size()).toBe(1);
+    expect(stack.peek()).toBe(item);
     expect(stack.pop()).toBe(item);
   });
 
@@ -26,7 +28,17 @@ const describeFn = (classOrFunc: any, isFunc = false) => () => {
     items.forEach(item => stack.push(item));
 
     expect(stack.size()).toBe(items.length);
+    expect(stack.peek()).toBe(items.slice(-1)[0]);
     expect(stack.pop()).toBe(items.pop());
+  });
+
+  it("must return the same item no matter how many times it's called", () => {
+    const stack = createStack(classOrFunc, isFunc);
+    const items = ["one", "two", "three"];
+    items.forEach(item => stack.push(item));
+
+    expect(stack.peek()).toBe(items.slice(-1)[0]);
+    expect(stack.peek()).toBe(items.slice(-1)[0]);
   });
 };
 
@@ -34,4 +46,4 @@ describe("StackString", describeFn(StackString));
 
 describe("StackArray", describeFn(StackArray));
 
-describe("stack object functional", describeFn(stackObject, true));
+describe("stackObject functional", describeFn(stackObject, true));
