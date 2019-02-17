@@ -1,6 +1,6 @@
-import { StackString, StackArray, stackObject, Stack } from "../stack";
+import { StackString, StackArray, stackObject, TStack } from "../stack";
 
-const createStack = (classOrFunc: any, isFunc: boolean) => {
+const createStack = (classOrFunc: any, isFunc: boolean): TStack => {
   return isFunc ? classOrFunc() : new classOrFunc();
 };
 

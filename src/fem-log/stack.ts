@@ -1,6 +1,6 @@
 // LIFO - Last in, first out
 
-export interface Stack {
+export interface TStack {
   push(item: any): string | number;
   pop(): any;
   peek(): any;
@@ -11,7 +11,7 @@ export interface Stack {
 }
 
 // Implemented using a string
-export class StackString implements Stack {
+export class StackString implements TStack {
   private storage = "";
   private maxCapacity = 100;
 
@@ -81,7 +81,7 @@ export class StackString implements Stack {
 }
 
 // Implemented using an array
-export class StackArray implements Stack {
+export class StackArray implements TStack {
   private storage: any[] = [];
   private maxCapacity = 100;
 
@@ -113,7 +113,7 @@ export class StackArray implements Stack {
 }
 
 // Implemented using an object and more functional way
-export function stackObject(maxCapacity = 100): Stack {
+export function stackObject(maxCapacity = 100): TStack {
   let storage: { [key: number]: any } = {};
 
   return {
